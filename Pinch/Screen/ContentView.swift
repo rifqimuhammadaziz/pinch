@@ -9,11 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     // MARK: - PROPERTY
+    
     @State private var isAnimating: Bool = false
     @State private var imageScale: CGFloat = 1
     @State private var imageOffset: CGSize = .zero // width & height = 0
     
     // MARK: - FUNCTION
+    
+    func resetImageState() {
+        return withAnimation(.spring()) {
+            imageScale = 1
+            imageOffset = .zero
+        }
+    }
     
     // MARK: - CONTENT
     var body: some View {
@@ -36,9 +44,7 @@ struct ContentView: View {
                                 imageScale = 5
                             }
                         } else {
-                            withAnimation(.spring()) {
-                                imageScale = 1
-                            }
+                            resetImageState()
                         }
                     })
                 // MARK: - 2. DRAG GESTURE
@@ -51,10 +57,7 @@ struct ContentView: View {
                             }
                             .onEnded { _ in
                                 if imageScale <= 1 {
-                                    withAnimation(.spring()) {
-                                        imageScale = 1
-                                        imageOffset = .zero
-                                    }
+                                    resetImageState()
                                 }
                             }
                     )
